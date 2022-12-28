@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: node-app
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: dev
+            url: https://kubernetes.default.svc
+            autoSync: true
+
+          - cluster: prod
+            url: https://kubernetes.default.svc
+            autoSync: false
+          - cluster: preprod
+            url: https://kubernetes.default.svc
+            autoSync: true
+
+  template:
+    metadata:
+      name: 'node-app-{{cluster}}'
+    spec:
+      source:
+        repoURL: https://github.com/Asanio06/gitops-config.git
+        targetRevision: HEAD
+        path: node-app-{{cluster}}
+      destination:
+        server: '{{url}}'
+        namespace: node-app
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          selfHeal: '{{autoSync}} | default false'
+          prune: true
