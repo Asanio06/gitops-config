@@ -4,30 +4,23 @@ metadata:
   name: node-app
 spec:
   generators:
-    - list:
-        elements:
-          - cluster: dev
-            url: https://kubernetes.default.svc
-            autoSync: true
-
-          - cluster: prod
-            url: https://kubernetes.default.svc
-            autoSync: false
-          - cluster: preprod
-            url: https://kubernetes.default.svc
-            autoSync: true
+    - git:
+        repoURL: https://github.com/Asanio06/gitops-config.git
+          revision: HEAD
+          directories:
+            - path: config/*
 
   template:
     metadata:
-      name: 'node-app-{{cluster}}'
+      name: '{{path.basename}}'
     spec:
       source:
         repoURL: https://github.com/Asanio06/gitops-config.git
         targetRevision: HEAD
-        path: node-app-{{cluster}}
+        path: '{{path}}'
       destination:
-        server: '{{url}}'
-        namespace: node-app
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
