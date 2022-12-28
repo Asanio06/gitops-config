@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app
+  name: node-app-prod
 spec:
   selector:
     matchLabels:
-      app: node-app
+      app: node-app-prod
   replicas: 2
   template:
     metadata:
       labels:
-        app: node-app
+        app: node-app-prod
     spec:
       containers:
         - name: node-app

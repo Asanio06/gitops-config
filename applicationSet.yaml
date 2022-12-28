@@ -6,21 +6,22 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/Asanio06/gitops-config.git
-          revision: HEAD
-          directories:
-            - path: config/*
+        revision: HEAD
+        directories:
+          - path: config/*
 
   template:
     metadata:
       name: '{{path.basename}}'
     spec:
+      project: default
       source:
         repoURL: https://github.com/Asanio06/gitops-config.git
         targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        namespace: argocd
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
