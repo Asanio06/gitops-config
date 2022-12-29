@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-node-app-{{  .Values.app.env  }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /{{  .Values.app.env  }}
+            pathType: Prefix
+            backend:
+              service:
+                name: node-app-{{  .Values.app.env  }}-service
+                port:
+                  number: 80
