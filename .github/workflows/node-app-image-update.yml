@@ -2,12 +2,17 @@ name: Repository Dispatch
 
 on:
   repository_dispatch:
-    types: [new-image]
+    types: [update-kube-config]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - name: Is release
+      run: | 
+        echo "${{ github.event.client_payload.release }}"
+        
 
     - name: Update Image Version
       id: imgupd
