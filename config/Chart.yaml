@@ -1,4 +1,4 @@
 apiVersion: v2
-name: findmytube-api
+name: node-app
 description: Test
 version: 0.1.0

@@ -12,14 +12,32 @@ jobs:
     - name: Is release
       run: | 
         echo "${{ github.event.client_payload.release }}"
+        echo "${{ github.event.client_payload.branch }}"
         
 
-    - name: Update Image Version
+    - name: Deploy on production
       id: imgupd
       uses: mikefarah/yq@master
+      if: ${{ github.event.client_payload.release }}
       with:
-        cmd: yq eval '.spec.template.spec.containers[0].image = "${{ github.event.client_payload.image }}"' -i node-app/deployment.yaml
-      
+        cmd: yq eval '.app.image.tags= "${{ github.event.client_payload.image }}"' -i config/values.prod.yaml
+
+    - name: Deploy on preprod
+      id: imgupd
+      uses: mikefarah/yq@master
+      if: ${{ github.event.client_payload.branch == 'main' }}
+      with:
+        cmd: yq eval '.app.image.tags= "${{ github.event.client_payload.image }}"' -i config/values.preprod.yaml
+
+    - name: Deploy on test
+      id: imgupd
+      uses: mikefarah/yq@master
+      if: ${{ github.event.client_payload.branch == 'develop' }}
+      with:
+        cmd: yq eval '.app.image.tags= "${{ github.event.client_payload.image }}"' -i config/values.dev.yaml
+
+
+
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Apply image name changes
