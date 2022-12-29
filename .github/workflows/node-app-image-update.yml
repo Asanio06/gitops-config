@@ -16,21 +16,18 @@ jobs:
         
 
     - name: Deploy on production
-      id: imgupd
       uses: mikefarah/yq@master
       if: ${{ github.event.client_payload.release }}
       with:
         cmd: yq eval '.app.image.tags= "${{ github.event.client_payload.image }}"' -i config/values.prod.yaml
 
     - name: Deploy on preprod
-      id: imgupd
       uses: mikefarah/yq@master
       if: ${{ github.event.client_payload.branch == 'main' }}
       with:
         cmd: yq eval '.app.image.tags= "${{ github.event.client_payload.image }}"' -i config/values.preprod.yaml
 
     - name: Deploy on test
-      id: imgupd
       uses: mikefarah/yq@master
       if: ${{ github.event.client_payload.branch == 'develop' }}
       with:
