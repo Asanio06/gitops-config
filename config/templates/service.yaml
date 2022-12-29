@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: node-app-{{  .Values.app.env  }}-service
 spec:
+  type: NodePort
   selector:
     app: node-app-{{  .Values.app.env  }}
   ports:

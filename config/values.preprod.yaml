@@ -1,6 +1,6 @@
 app:
   env: preprod
-  replicas: 1
+  replicas: 2
   image:
     tag: 9
     pull: Always
