@@ -24,15 +24,14 @@ spec:
         helm:
           valueFiles:
             - values.{{env}}.yaml
-
       destination:
         server: https://kubernetes.default.svc
         namespace: node-app
-        syncPolicy:
-          syncOptions:
-            - CreateNamespace=true
-            - Replace=true
-          automated:
-            selfHeal: true
-            allowEmpty: true
-            prune: true
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
+        automated:
+          selfHeal: true
+          prune: true
+          allowEmpty: true
