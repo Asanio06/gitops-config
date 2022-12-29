@@ -1,0 +1,11 @@
+app:
+  env: prod
+  replicas: 1
+  image:
+    tag: 9
+    pull: Always
+  deployment:
+    container:
+      port: 3000
+  service:
+    port: 3100

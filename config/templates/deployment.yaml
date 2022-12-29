@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-{{  .Values.app.env  }}
+spec:
+  selector:
+    matchLabels:
+      app: node-app-{{  .Values.app.env  }}
+  replicas: {{  .Values.app.replicas  }}
+  template:
+    metadata:
+      labels:
+        app: node-app-{{ .Values.app.env }}
+    spec:
+      containers:
+        - name: node-app
+          image: "asanio06/examplenode-dev:{{ .Values.app.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.app.deployment.container  }}

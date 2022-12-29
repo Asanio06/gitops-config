@@ -4,27 +4,33 @@ metadata:
   name: node-app
 spec:
   generators:
-    - git:
-        repoURL: https://github.com/Asanio06/gitops-config.git
-        revision: HEAD
-        directories:
-          - path: config/*
-
+    - list:
+        elements:
+          - env: dev
+            url: https://kubernetes.default.svc
+          - env: preprod
+            url: https://kubernetes.default.svc
+          - env: prod
+            url: https://kubernetes.default.svc
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: 'node-app-{{env}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/Asanio06/gitops-config.git
         targetRevision: HEAD
-        path: '{{path}}'
+        path: config
+        helm:
+          valueFiles:
+            - values.{{env}}.yaml
+
       destination:
         server: https://kubernetes.default.svc
-        namespace: argocd
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-        automated:
-          selfHeal: {{autoSync}}
-          prune: true
+        namespace: node-app
+        syncPolicy:
+          syncOptions:
+            - CreateNamespace=true
+          automated:
+            selfHeal: true
+            prune: true
