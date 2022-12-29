@@ -16,4 +16,4 @@ spec:
         - name: node-app
           image: "asanio06/examplenode-dev:{{ .Values.app.image.tag }}"
           ports:
-            - containerPort: {{ .Values.app.deployment.container  }}
+            - containerPort: {{ .Values.app.deployment.container.port  }}
