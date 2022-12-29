@@ -2,7 +2,7 @@ app:
   env: preprod
   replicas: 2
   image:
-    tags: asanio06/examplenode-dev:latest
+    tags: asanio06/examplenode:latest
     pull: Always
   deployment:
     container:
