@@ -2,7 +2,7 @@ app:
   env: dev
   replicas: 1
   image:
-    tags: asanio06/examplenode:latest
+    tags: asanio06/examplenode:06d111c2551e24757a21d8b52a92968f756fdc75
     pull: Always
   deployment:
     container:
