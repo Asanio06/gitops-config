@@ -21,9 +21,11 @@ spec:
         repoURL: https://github.com/Asanio06/gitops-config.git
         targetRevision: HEAD
         path: config
-        helm:
-          valueFiles:
-            - values.{{env}}.yaml
+        plugin:
+          name: argocd-vault-plugin-helm
+          env:
+            - name: helm_args
+              value: -f values.{{env}}.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: node-app
