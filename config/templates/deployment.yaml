@@ -15,5 +15,13 @@ spec:
       containers:
         - name: node-app
           image: {{ .Values.app.image.tags }}
+          env:
+            - name: MY_TEST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret-{{  .Values.app.env  }}
+                  key: test-password
+                  optional: false
           ports:
             - containerPort: {{ .Values.app.deployment.container.port  }}
+
