@@ -22,16 +22,11 @@ spec:
         targetRevision: HEAD
         path: config
         plugin:
-          name: argocd-vault-helm
+          name: argocd-vault-plugin-helm
           env:
-            # These are the arguments we pass to "helm template"
             - name: helm_args
               value: |
-                --set architecture=standalone
-                --set auth.enabled=true
-        helm:
-          valueFiles:
-            - values.{{env}}.yaml
+                -f values.{{env}}.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: node-app
